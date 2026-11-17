@@ -1,1 +1,203 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAXJO TOPUP</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#100d1c;
+ color:white;
+}
+header{
+ background:linear-gradient(120deg,#8b0000,#e32636);
+ padding:22px 15px;
+ text-align:center;
+}
+header h1{margin:0;font-size:27px}
+header p{margin:7px 0 0}
+.container{max-width:600px;margin:auto;padding:15px}
+.notice,.section{
+ background:#211b32;
+ border:1px solid #44345e;
+ border-radius:12px;
+ padding:15px;
+ margin-bottom:15px;
+}
+.notice{border-color:#e32636}
+h2{font-size:18px;color:#ff5264;margin-top:0}
+.packages{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+}
+.package{
+ background:#302542;
+ border:1px solid #59436e;
+ padding:15px 8px;
+ border-radius:10px;
+ text-align:center;
+ cursor:pointer;
+}
+.package.selected{
+ border:2px solid #ff4055;
+ background:#4a2438;
+}
+.package b{display:block;margin-bottom:7px}
+input,select{
+ width:100%;
+ padding:13px;
+ margin:7px 0 12px;
+ border:1px solid #59436e;
+ border-radius:8px;
+ background:#151121;
+ color:white;
+ font-size:15px;
+}
+button{
+ width:100%;
+ padding:13px;
+ background:#e32636;
+ border:0;
+ color:white;
+ border-radius:8px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.small{font-size:12px;color:#c8bdd7}
+footer{text-align:center;color:#aaa;padding:20px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>MAXJO TOPUP</h1>
+<p>FREE FIRE DIAMOND TOP UP</p>
+</header>
+
+<div class="container">
+
+<div class="notice">
+<h2>📢 NOTICE BOARD</h2>
+<p>Welcome to MAXJO TOPUP!</p>
+<p>সঠিক UID ও পেমেন্ট তথ্য দিয়ে অর্ডার করুন।</p>
+</div>
+
+<div class="section">
+<h2>💎 SELECT DIAMOND PACKAGE</h2>
+<div class="packages">
+<div class="package" onclick="choose(this,'25 Diamond',20)">
+<b>💎 25 Diamond</b>৳20
+</div>
+<div class="package" onclick="choose(this,'50 Diamond',35)">
+<b>💎 50 Diamond</b>৳35
+</div>
+<div class="package" onclick="choose(this,'115 Diamond',80)">
+<b>💎 115 Diamond</b>৳80
+</div>
+<div class="package" onclick="choose(this,'240 Diamond',160)">
+<b>💎 240 Diamond</b>৳160
+</div>
+<div class="package" onclick="choose(this,'355 Diamond',235)">
+<b>💎 355 Diamond</b>৳235
+</div>
+<div class="package" onclick="choose(this,'Weekly Membership',160)">
+<b>👑 Weekly</b>৳160
+</div>
+</div>
+<p id="selected">কোনো প্যাকেজ সিলেক্ট করা হয়নি</p>
+</div>
+
+<div class="section">
+<h2>🆔 PLAYER INFORMATION</h2>
+<label>Free Fire UID</label>
+<input id="uid" placeholder="Enter your Player UID">
+<p class="small">UID ভালোভাবে যাচাই করে লিখুন।</p>
+</div>
+
+<div class="section">
+<h2>💳 PAYMENT METHOD</h2>
+<select id="method">
+<option value="">Select Payment Method</option>
+<option value="bKash">bKash</option>
+<option value="Nagad">Nagad</option>
+<option value="Wallet">Wallet</option>
+</select>
+
+<p id="paymentInfo">পেমেন্ট মেথড নির্বাচন করুন।</p>
+
+<label>Transaction ID (TrxID)</label>
+<input id="trx" placeholder="Enter Transaction ID">
+
+<label>Sender Number</label>
+<input id="sender" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন">
+</div>
+
+<div class="section">
+<h2>📦 ORDER DETAILS</h2>
+<p id="total">Total: ৳0</p>
+<button onclick="submitOrder()">SUBMIT ORDER</button>
+</div>
+
+<div class="section">
+<h2>📞 CONTACT SUPPORT</h2>
+<p>WhatsApp: 01610570290</p>
+</div>
+
+</div>
+
+<footer>© 2026 MAXJO TOPUP | All Rights Reserved</footer>
+
+<script>
+let packageName="";
+let price=0;
+
+function choose(el,name,amount){
+ document.querySelectorAll(".package").forEach(p=>p.classList.remove("selected"));
+ el.classList.add("selected");
+ packageName=name;
+ price=amount;
+ document.getElementById("selected").innerText="Selected: "+name;
+ document.getElementById("total").innerText="Total: ৳"+price;
+}
+
+document.getElementById("method").addEventListener("change",function(){
+ let info="";
+ if(this.value==="bKash") info="bKash Send Money: 01627220616";
+ if(this.value==="Nagad") info="Nagad Send Money: 01865908732";
+ if(this.value==="Wallet") info="Wallet payment নির্বাচন করুন।";
+ document.getElementById("paymentInfo").innerText=info;
+});
+
+function submitOrder(){
+ let uid=document.getElementById("uid").value.trim();
+ let trx=document.getElementById("trx").value.trim();
+ let sender=document.getElementById("sender").value.trim();
+ let method=document.getElementById("method").value;
+
+ if(!packageName || !uid || !method || !trx || !sender){
+  alert("সব তথ্য পূরণ করুন এবং প্যাকেজ নির্বাচন করুন।");
+  return;
+ }
+
+ let message=
+ "MAXJO TOPUP ORDER\n"+
+ "Package: "+packageName+"\n"+
+ "Price: "+price+"\n"+
+ "UID: "+uid+"\n"+
+ "Payment: "+method+"\n"+
+ "TrxID: "+trx+"\n"+
+ "Sender: "+sender;
+
+ let url="https://wa.me/8801610570290?text="+encodeURIComponent(message);
+ window.open(url,"_blank");
+}
+</script>
+
+</body>
+</html>
